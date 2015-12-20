@@ -1,16 +1,8 @@
 package edu.nyit.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,6 +13,10 @@ import edu.nyit.dto.PostService;
 import edu.nyit.dto.User;
 import edu.nyit.dto.UserService;
 
+/**
+ * Controller for register a user
+ *
+ */
 @org.springframework.stereotype.Controller
 public class RegDBController implements Controller
 {
@@ -30,6 +26,7 @@ public class RegDBController implements Controller
 		ModelAndView mv = null;
 		mv = new ModelAndView("index");
 
+		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"spring.xml");
 		UserService personService = (UserService) context

@@ -9,14 +9,15 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/**
+ * Custom object to contain information about a single User
+ *
+ */
 @Entity
 @Table(name = "User")
 public class User
@@ -42,6 +43,22 @@ public class User
 	@OneToMany(mappedBy="user")
 	private Set<Post> posts = new HashSet<>();
 	
+	/**
+	 * Convert post list to content string list
+	 * 
+	 * @param postList A list of Post objects
+	 * @return A list of Post content string
+	 */
+	public List<String> toContentList(List<Post> postList)
+	{
+		List<String> l = new ArrayList<String>();
+		for (Post p : postList)
+		{
+			l.add(p.getContent());
+		}
+		return l;
+	}
+	
 	public List<String> getFriends()
 	{
 		return friends;
@@ -50,26 +67,6 @@ public class User
 	public void setFriends(List<String> friends)
 	{
 		this.friends = friends;
-	}
-
-	public List<String> toList(Set<Post> set)
-	{
-		List<String> l = new ArrayList<String>();
-		for (Post p : set)
-		{
-			l.add(p.getContent());
-		}
-		return l;
-	}
-	
-	public List<String> toContentList(List<Post> set)
-	{
-		List<String> l = new ArrayList<String>();
-		for (Post p : set)
-		{
-			l.add(p.getContent());
-		}
-		return l;
 	}
 	
 	public Set<Post> getPosts()

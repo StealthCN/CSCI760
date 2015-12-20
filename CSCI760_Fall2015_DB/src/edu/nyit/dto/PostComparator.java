@@ -2,6 +2,10 @@ package edu.nyit.dto;
 
 import java.util.Comparator;
 
+/**
+ * Comparator used to sort post by time.
+ *
+ */
 public class PostComparator implements Comparator<Post>
 {
 	public int compare(Post o1, Post o2)

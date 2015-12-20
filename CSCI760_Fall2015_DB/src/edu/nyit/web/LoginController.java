@@ -9,10 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.Session;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -21,6 +19,10 @@ import edu.nyit.dto.PostComparator;
 import edu.nyit.dto.User;
 import edu.nyit.dto.UserDAO;
 
+/**
+ * Controller for login page
+ *
+ */
 @org.springframework.stereotype.Controller
 public class LoginController implements Controller
 {
@@ -33,11 +35,12 @@ public class LoginController implements Controller
 
 		if (userName != null && !password.isEmpty())
 		{
+			@SuppressWarnings("resource")
 			ApplicationContext context = new ClassPathXmlApplicationContext(
 					"spring.xml");
 			UserDAO template = context.getBean("userDAO", UserDAO.class);
 			User u = template.getUser(userName);
-			
+
 			HttpSession session = request.getSession();
 			session.setAttribute("user", u);
 
@@ -47,7 +50,7 @@ public class LoginController implements Controller
 				mv = new ModelAndView("newMain");
 				mv.addObject("firstName", u.getFirstName());
 				Set<Post> postSet = u.getPosts();
-				for(String s : u.getFriends())
+				for (String s : u.getFriends())
 				{
 					User f = template.getUser(s);
 					postSet.addAll(f.getPosts());

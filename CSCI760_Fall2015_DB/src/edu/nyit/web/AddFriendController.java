@@ -19,6 +19,10 @@ import edu.nyit.dto.PostComparator;
 import edu.nyit.dto.User;
 import edu.nyit.dto.UserDAO;
 
+/**
+ * Controller for add friend page
+ *
+ */
 @org.springframework.stereotype.Controller
 public class AddFriendController implements Controller
 {
@@ -29,22 +33,24 @@ public class AddFriendController implements Controller
 		ModelAndView mv = new ModelAndView("newMain");
 		HttpSession session = request.getSession();
 		User u = (User) session.getAttribute("user");
-		
+
 		String friendName = request.getParameter("friend");
+		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"spring.xml");
 		UserDAO template = context.getBean("userDAO", UserDAO.class);
-		User friend = template.getUser(friendName.substring(friendName.lastIndexOf(" ")).trim());
+		User friend = template.getUser(
+				friendName.substring(friendName.lastIndexOf(" ")).trim());
 
 		System.out.println(friend.getEmail());
 		System.out.println(u.getFriends().size());
-		
+
 		u.getFriends().add(friend.getEmail());
 		template.updateUser(u);
-		
+
 		mv.addObject("firstName", u.getFirstName());
 		Set<Post> postSet = u.getPosts();
-		for(String s : u.getFriends())
+		for (String s : u.getFriends())
 		{
 			User f = template.getUser(s);
 			postSet.addAll(f.getPosts());
@@ -54,7 +60,7 @@ public class AddFriendController implements Controller
 		Collections.sort(postList, new PostComparator());
 		List<String> l = u.toContentList(postList);
 		mv.addObject("postList", l);
-		
+
 		return mv;
 	}
 

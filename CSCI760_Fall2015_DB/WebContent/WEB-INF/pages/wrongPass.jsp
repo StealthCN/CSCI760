@@ -5,7 +5,7 @@
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Life Pieces</title>
-Username does not Exist or wrong password!
+<p>User-name does not exist or wrong password!</p>
 <br>
 <div style='float:left'>
 	<form action="retry">

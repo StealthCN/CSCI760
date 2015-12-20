@@ -6,6 +6,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+/**
+ * Controller for retry page
+ *
+ */
 @org.springframework.stereotype.Controller
 public class RetryController implements Controller
 {

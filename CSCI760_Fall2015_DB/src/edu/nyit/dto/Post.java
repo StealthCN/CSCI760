@@ -1,10 +1,7 @@
 package edu.nyit.dto;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Custom object to contain information about a single Post
+ *
+ */
 @Entity
 @Table(name = "Post")
 public class Post
@@ -79,6 +80,11 @@ public class Post
 		return content;
 	}
 
+	/**
+	 * Post format: "First name" + posted + "content"
+	 * 
+	 * @param content Post Content
+	 */
 	public void setContent(String content)
 	{
 		Date dNow = new Date();

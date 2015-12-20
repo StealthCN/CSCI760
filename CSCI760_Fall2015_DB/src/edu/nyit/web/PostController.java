@@ -19,8 +19,11 @@ import edu.nyit.dto.PostComparator;
 import edu.nyit.dto.PostService;
 import edu.nyit.dto.User;
 import edu.nyit.dto.UserDAO;
-import edu.nyit.dto.UserService;
 
+/**
+ * Controller for create a post
+ *
+ */
 @org.springframework.stereotype.Controller
 public class PostController implements Controller
 {
@@ -32,6 +35,7 @@ public class PostController implements Controller
 		HttpSession session = request.getSession();
 		User u = (User) session.getAttribute("user");
 		
+		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
 		PostService postService = (PostService) context.getBean("postService");
 		UserDAO template = context.getBean("userDAO", UserDAO.class);

@@ -14,6 +14,10 @@ import org.springframework.web.servlet.mvc.Controller;
 import edu.nyit.dto.User;
 import edu.nyit.dto.UserDAO;
 
+/**
+ * Controller for find friend page
+ *
+ */
 @org.springframework.stereotype.Controller
 public class FindFriendController implements Controller
 {
@@ -22,14 +26,16 @@ public class FindFriendController implements Controller
 			HttpServletResponse response) throws Exception
 	{
 		ModelAndView mv = new ModelAndView("findFriend");
+		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"spring.xml");
 		UserDAO template = context.getBean("userDAO", UserDAO.class);
 		List<User> l = template.listUsers();
 		List<String> userNames = new ArrayList<String>();
-		for(User u: l)
+		for (User u : l)
 		{
-			userNames.add(u.getFirstName()+" "+u.getLastName()+" "+u.getEmail());
+			userNames.add(u.getFirstName() + " " + u.getLastName() + " "
+					+ u.getEmail());
 		}
 		mv.addObject("userNames", userNames);
 		return mv;
