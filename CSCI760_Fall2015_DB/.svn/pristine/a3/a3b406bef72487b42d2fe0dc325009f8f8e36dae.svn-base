@@ -1,0 +1,122 @@
+<%@ page import = "java.sql.* "%>
+
+<%
+		String SSNString = request.getParameter("SSN");
+		int SSN = 0;
+		if(SSNString != null)
+			SSN = Integer.parseInt(SSNString);
+		String FN = request.getParameter("FirstNameField");
+		String LN = request.getParameter("LastNameField");
+		String Password = request.getParameter("PasswordField");
+		String EMail = request.getParameter("EMailField");
+		String Address = request.getParameter("AddressArea");
+		String City = request.getParameter("City");
+		String State = request.getParameter("State");
+		String Gender = request.getParameter("select");
+		String year = request.getParameter("select2");
+		String month = request.getParameter("select3");
+		String day = request.getParameter("select4");
+		String BOD = year + "-" + month + "-" + day;
+		String [] Preferences = request.getParameterValues("select5");
+		int ZipCode = 0;
+		String ZipCodeString = request.getParameter("ZipCode");
+		if(ZipCodeString != null)
+			ZipCode = Integer.parseInt(ZipCodeString);
+		int tele = 0;
+		String teleSting = request.getParameter("TelephoneField");
+		if(teleSting != null)
+			tele = Integer.parseInt(teleSting);
+		
+		
+     	String mysJDBCDriver = "com.mysql.jdbc.Driver"; 
+     	String mysURL = "jdbc:mysql://127.0.0.1:3306/lifepieces"; 
+     	String mysUserID = "root"; 
+    	String mysPassword = "626262";
+/*    	
+	if ((username!=null) &&(userpasswd!=null))
+	{
+		if (username.trim().equals("") || userpasswd.trim().equals(""))
+		{
+			response.sendRedirect("index.htm");
+		}
+		else
+		{
+*/
+			// code start here
+			java.sql.Connection conn=null;
+			try 
+			{
+            	Class.forName(mysJDBCDriver).newInstance();
+    			java.util.Properties sysprops=System.getProperties();
+    			sysprops.put("user",mysUserID);
+    			sysprops.put("password",mysPassword);
+        
+				//connect to the database
+            	conn=java.sql.DriverManager.getConnection(mysURL,sysprops);
+            	System.out.println("Connected successfully to database using JConnect");
+            
+            	
+            	conn.setAutoCommit(false);
+			//stmt1.executeUpdate("insert into person values("+SSN+",'"+LN+"','"+FN+"','"+Address+"','"+City+"','"+State+"',"+ZipCode+","+tele+",'"+EMail+"'");
+			//stmt1.executeUpdate("insert into account values("+0+","+0+","+0+",'"+""+"',"+Password+"");
+				PreparedStatement pst = conn.prepareStatement("insert into person values(?,?,?,?,? ,?,?,?,?,? ,?)");
+     	 		pst.setInt(1,SSN);
+      			pst.setString(2,LN);      
+      			pst.setString(3,FN);
+      			pst.setString(4,Address);
+      			pst.setString(5,City);
+      			pst.setString(6,State);
+      			pst.setInt(7,ZipCode);
+      			pst.setInt(8,tele);
+      			pst.setString(9,EMail);
+      			pst.setString(10,Password);
+      			pst.setString(11,Gender);
+      		
+      			pst.addBatch();
+		       // submit the batch for execution
+	    		int[] updateCounts = pst.executeBatch();
+	    		conn.commit();
+				
+				PreparedStatement pst1 = conn.prepareStatement("insert into user (SSN,BOD)values(?,?)");
+				pst1.setInt(1,SSN);
+				pst1.setString(2,BOD);      				
+      		
+      			pst1.addBatch();
+		       // submit the batch for execution
+	    		int[] updateCounts1 = pst1.executeBatch();
+	    		conn.commit();	
+		    		   
+	    		java.sql.Statement stmt1=conn.createStatement();
+	    		java.sql.ResultSet rs = stmt1.executeQuery(" select User_Id from user where SSN='"+SSN+"'");
+	    		conn.commit();
+	    		if (rs.next())
+				{
+					int Id;
+					Id = rs.getInt("User_Id");	    		
+	    			for(int i=0;i<Preferences.length;i++){
+	    				PreparedStatement pst2 = conn.prepareStatement("insert into user_preferences (Id,Preference)values(?,?)");
+	    				pst2.setInt(1,Id);
+	    				pst2.setString(2,Preferences[i]);      				
+      		
+	    				pst2.addBatch();
+		       			// submit the batch for execution
+	    				int[] updateCounts2 = pst2.executeBatch();
+	    				conn.commit();	
+	    			}
+				}
+			} catch(Exception e)
+			{
+				e.printStackTrace();
+				out.print(e.toString());
+			}
+			finally{
+			
+				try{conn.close();}catch(Exception ee){};
+			}
+/*
+	}
+*/
+%>
+
+User Added!
+<a href="Index.html"><font color="Blue">Home</font></a>

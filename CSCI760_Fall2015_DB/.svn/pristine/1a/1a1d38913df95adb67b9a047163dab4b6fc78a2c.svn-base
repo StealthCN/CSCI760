@@ -1,0 +1,50 @@
+package springmvc.web;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.ServiceRegistryBuilder;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+import spring.dto.User;
+
+@org.springframework.stereotype.Controller
+public class RegDBController implements Controller
+{
+	public ModelAndView handleRequest(HttpServletRequest request,
+			HttpServletResponse reponse) throws Exception 
+	{
+		ModelAndView mv = null;
+		mv = new ModelAndView("index");
+		
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String ssn = request.getParameter("ssn");
+		String pass = request.getParameter("password");
+		
+		User u = new User();
+		u.setFirstName(firstName);
+		u.setLastName(lastName);
+		u.setSSN(ssn);
+		u.setPassword(pass);
+		
+		Configuration config = new Configuration().configure();
+		ServiceRegistry serviceReg = new ServiceRegistryBuilder().applySettings(config.getProperties()).buildServiceRegistry();
+		SessionFactory sessionF = new Configuration().configure().buildSessionFactory(serviceReg);
+		Session session = sessionF.openSession();
+		session.beginTransaction();
+
+		session.save(u);
+		session.getTransaction().commit();
+
+		mv.addObject("userName", ssn);
+		mv.addObject("password", pass);
+		return mv;
+	}
+
+}

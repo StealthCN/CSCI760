@@ -1,0 +1,52 @@
+package springmvc.web;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+import spring.dto.User;
+import spring.dto.UserTemplate;
+
+@org.springframework.stereotype.Controller
+public class LoginController implements Controller
+{
+	public ModelAndView handleRequest(HttpServletRequest request,
+			HttpServletResponse response) throws Exception 
+	{
+		String userName = request.getParameter("userName");
+		String password = request.getParameter("password");
+		ModelAndView mv = null;
+		
+		if(userName != null && !password.isEmpty())
+		{
+			ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+			UserTemplate template = context.getBean("userTemplate", UserTemplate.class);
+			User u = template.getUser(userName);
+			
+			if((userName.compareTo(u.getSSN()) == 0)&&(password.compareTo(u.getPassword())) == 0)
+			{
+				mv = new ModelAndView("newMain");
+				mv.addObject("userName", userName);
+			}
+			else
+			{
+				mv = new ModelAndView("wrongPass");
+				mv.addObject("msg", "Error");
+			}
+		}
+		else
+		{
+			mv = new ModelAndView("wrongPass");
+			mv.addObject("msg", "Error");
+		}
+		
+		return mv;
+	}
+
+}

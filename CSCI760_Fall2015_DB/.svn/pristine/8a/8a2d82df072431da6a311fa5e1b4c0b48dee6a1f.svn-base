@@ -1,0 +1,24 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<title>Home</title>
+<body>
+	<a href="Main.jsp">LifePieces</span></a>
+	<br>
+	<a href="Main.jsp" class="tab active">Home</a>
+	<a href="message.html" class="tab ">Send Message</a>
+	<a href="viewMessages.jsp" class="tab">View Message</a>
+	<a href="post.html" class="tab">Write Post</a>
+	<a href="my circles.jsp?param1=" class="tab">My Circles</a>
+	<a href="ViewCircle.jsp" class="tab">View Circles</a>
+	
+	<form action="profile">
+		<input type="submit" value="Profile">
+	</form>
+	
+	<br>
+	<c:out value="${userName}"></c:out>
+</body>
+</html>

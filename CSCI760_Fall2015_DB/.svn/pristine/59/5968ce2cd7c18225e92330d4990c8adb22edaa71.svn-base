@@ -1,0 +1,44 @@
+package spring.dto;
+
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+public class UserTemplate 
+{
+	private SessionFactory sessionFactory;
+
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+	
+	public User getUser(String userName)
+	{
+		User u = null;
+		String sql = "from User U where U.SSN ="+userName;
+		Session session = getSessionFactory().openSession();
+		Query q = session.createQuery(sql);
+		List<User> list = (List<User>)q.list();
+		if(list.size() == 1)
+		{
+			u = list.get(0);
+			System.out.println(u.getSSN()+" "+u.getPassword());
+		}
+		return u;
+	}
+	
+	public List<User> listEmployees()
+	{
+		String sql = "from User";
+		Session session = getSessionFactory().openSession();
+		Query q = session.createQuery(sql);
+		List<User> list = (List<User>)q.list();
+		return list;
+	}
+}

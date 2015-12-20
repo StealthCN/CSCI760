@@ -1,0 +1,197 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+ <script type="text/javascript">
+ </script>
+<title>Profile</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+ <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" >
+ <meta name="ROBOTS" content="NOARCHIVE">
+ <link type="text/css" rel="stylesheet" href="https://ssl.gstatic.com/codesite/ph/6833756213928266202/css/core.css">
+ <link type="text/css" rel="stylesheet" href="https://ssl.gstatic.com/codesite/ph/6833756213928266202/css/ph_detail.css" >
+ </style>
+</head>
+<body class="t3">
+<script type="text/javascript">
+ (function() {
+ var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+ })();
+</script>
+<div class="headbg">
+ <div id="gaia">
+ <span>
+ </span>
+ </div>
+ <div style="height: 1px"></div>
+ <table style="padding:0px; margin: 0px 0px 10px 0px; width:100%" cellpadding="0" cellspacing="0"
+ itemscope itemtype="http://schema.org/CreativeWork">
+ <tr style="height: 58px;">
+ <td style="padding-left: 0.5em">
+ <div id="pname">
+ <a href="Main.jsp"><span itemprop="name">LifePieces</span></a>
+ </div>
+ </td>
+ <td style="white-space:nowrap;text-align:right; vertical-align:bottom;">
+ </tr>
+ </table>
+</div>
+<div id="mt" class="gtb"> 
+<%
+String uids = request.getParameter("param1");
+int uid = Integer.parseInt(uids);
+%>
+<a href="Main.jsp?param1=<%=uid%>" class="tab">Home</a>
+ 
+ <a href="message.html" class="tab ">Send Message</a>
+ 
+ <a href="viewMessages.jsp" class="tab">View Message</a>
+ 
+ <a href="post.html" class="tab">Write Post</a>
+  
+   <a href="my circles.jsp" class="tab">My Circles</a>
+ 
+ <a href="ViewCircle.jsp" class="tab">View Circles</a>
+ 
+ <a href="Profile.jsp" class="tab active">Profile</a>
+
+ <div class=gtbc></div>
+</div>
+<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0" class="st">
+ <tr>
+ </tr>
+</table>
+</script>
+</head>
+
+</head>
+<script language="javascript" type="text/javascript">
+// <!CDATA[
+           function Button1_onclick() 
+           {
+        	   document.form1.textarea2.readOnly = false;
+        	   document.form2.textfield2.readOnly = false;
+        	   document.form3.textfield3.readOnly = false;
+        	   document.form4.textfield4.readOnly = false;
+        	   document.form5.textarea.readOnly = false;
+        	   document.form6.textarea3.readOnly = false;
+        	   document.form6.textfield7.readOnly = false;
+        	   document.form6.textfield7.readOnly = false;
+           }
+// ]]>
+</script>
+<%
+String mysJDBCDriver = "com.mysql.jdbc.Driver"; 
+String mysURL = "jdbc:mysql://127.0.0.1:3306/lifepieces"; 
+String mysUserID = "root"; 
+String mysPassword = "626262";
+
+
+//String uids = request.getParameter("param1");
+//int uid = Integer.parseInt(uids);
+System.out.println(uid);
+//int uid =100100102;
+	// code start here
+	java.sql.Connection conn=null;
+	try 
+	{
+		Class.forName(mysJDBCDriver).newInstance();
+		java.util.Properties sysprops=System.getProperties();
+		sysprops.put("user",mysUserID);
+		sysprops.put("password",mysPassword); 
+
+		//connect to the database
+		conn=java.sql.DriverManager.getConnection(mysURL,sysprops);
+		System.out.println("Connected successfully to database using JConnect");
+    
+		
+		java.sql.Statement stmt1=conn.createStatement();
+		java.sql.Statement stmt2=conn.createStatement();
+		java.sql.ResultSet rs = stmt1.executeQuery(" select * from user where User_Id = '"+uid+"'");
+		if(rs.next())
+		{
+			int SSN = rs.getInt(1);
+			String date = rs.getString(3);
+			java.sql.ResultSet rs1 = stmt2.executeQuery(" select * from person where SSN = "+SSN+"");
+			while (rs1.next())
+			{
+				%>
+				<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+				</head>
+				<body style="text-align: left">
+				                    </span>Basic Info
+				<hr>
+				<form name="form1" method="post" action="">
+				  <label>Name:
+				  <%String FN = rs1.getString(2);
+				  String LN = rs1.getString(3);
+				  String t = FN+" "+LN;%>
+	              <input name="textarea2" type="text" id="textarea2" value="<%=t%>" size="20" readonly>
+				  </label>
+				</form>
+				<form name="form2" method="post" action="">
+				  <label>Gender:
+				    <input name="textfield2" type="text" id="textfield2" value=<%=rs1.getString(11)%> readonly>
+				  </label>
+				</form>
+				<form name="form3" method="post" action="">
+				  <label>Date of Birth:
+				    <input name="textfield3" type="text" id="textfield3" value=<%=date%> readonly>
+				  </label>
+				</form>
+				<p>&nbsp;</p>
+				<p>Contact Info</p>
+				<hr>
+				<form name="form4" method="post" action="">
+				  <label>Phone:
+				    <input name="textfield4" type="text" id="textfield4" value=<%=rs1.getString(8) %> readonly>
+				  </label>
+				</form>
+				<form name="form5" method="post" action="">
+				  <p>Address: </p>
+				  <p>
+				    <label>
+				      <textarea name="textarea" cols="45" rows="5" readonly id="textarea"><%=rs1.getString(4) %></textarea>
+			        </label>
+				  </p>
+				</form>
+				<form name="form6" method="post" action="">
+				  <label>City:
+				    <input name="textarea3" type="text" id="textarea3" value="<%=rs1.getString(5)%>" size="20" readonly>
+				  </label>
+				  <label>
+				    State:
+				    <input name="textfield7" type="text" id="textfield7" value=<%=rs1.getString(6) %> readonly>
+				  </label>
+				  <label>
+				    Zip Code:
+				    <input name="textfield8" type="text" id="textfield8" value=<%=rs1.getString(7) %> readonly>
+				  </label>
+				</form>
+				<form name="form7" method="post" action="">
+				  <div align="right">
+				    <input type="button" name="button" id="button" onClick="return Button1_onclick()" value="Edit">
+			      </div>
+	</form>
+				<p>&nbsp;</p>
+				<p align="right">&nbsp;</p>
+				<p>&nbsp;</p>
+				<p>&nbsp;</p>
+				<%
+			}
+		}
+	} catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+	finally{
+		try{conn.close();}catch(Exception ee){};
+	}
+%>
+</body>
+</html>

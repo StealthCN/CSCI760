@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Register Your Account</title>
+
+<script language="javascript" type="text/javascript">
+// <!CDATA[
+function Button1_onclick() {
+if(document.myForm.SSN.value == "")
+	alert("Your SSN must not be null!!!")
+else if(document.myForm.FirstNameField.value == "")
+		alert("Your First Name must not be null!!!")
+else if(document.myForm.LastNameField.value == "")
+		alert("Your Last Name must not be null!!!")
+else if(document.myForm.EMailField.value == "")
+		alert("Your E-Mail must not be null!!!")
+else if(document.myForm.EMailField.value != document.myForm.ReEmailField.value)
+    alert("The Two E-mail Should Be the SAME!!!")
+else if(document.myForm.PasswordField.value == "")
+	alert("Your Password must not be null!!!")
+    
+  else{document.myForm.submit()}
+}
+
+function Button2_onclick() {
+    window.open("RegisterPage.htm","_self");
+
+}
+//]]>
+</script>
+
+</head>
+
+<body>
+<p>Register Your Account</p>
+<form id="myForm" name="myForm" method="post" action="useradd.jsp">
+  <label for="FirstNameField2">
+  <label for="SSN">SSN:<br />
+    <br />
+  </label>
+  <input type="text" name="SSN" id="SSN" />
+  <div align="left">
+    <p>First Name:</p>
+    <p>
+  <input type="text" name="FirstNameField" id="FirstNameField" />
+    </p>
+    <p>Gender
+  <label>
+    :
+    <select name="select" id="select">
+      <option value="F">F</option>
+      <option value="M">M</option>
+      </select>
+  </label>
+    </p>
+    <p>Birth Day: 
+      <label>
+        <select name="select2" id="select2">
+          <option value="2011">2011</option>
+          <option value="2010">2010</option>
+        </select>
+      </label>
+      <label>
+        <select name="select3" id="select3">
+          <option value="01">01</option>
+          <option value="02">02</option>
+        </select>
+      </label>
+      <label>
+        <select name="select4" id="select4">
+          <option value="01">01</option>
+          <option value="02">02</option>
+        </select>
+      </label>
+    </p>
+  </div>
+  <div align="right"></div>
+  </label>
+  <label for="FirstNameField2">
+    <div align="justify">
+      <p>Last Name:      </p>
+      <p>
+        <input type="text" name="LastNameField" id="LastNameField" />
+      </p>
+    </div>
+  </label>
+  <label for="EMailField">
+  <div align="right"></div>
+  </label>
+  <div align="justify">
+    <p>Your Email:    </p>
+    <p>
+      <input type="text" name="EMailField" id="EMailField" />
+    </p>
+  </div>
+  <label for="FirstNameField2">
+  </label>
+  <label for="ReEmailField">
+  </label>
+  <div align="justify">
+    <p>Re-enter Email:    </p>
+    <p>
+      <input type="text" name="ReEmailField" id="ReEmailField" />
+    </p>
+  </div>
+  <label for="PasswordField">
+  <div align="right"></div>
+  </label>
+  <div align="justify">
+    <p>Your Password:    </p>
+    <p>
+      <input type="password" name="PasswordField" id="PasswordField" />
+    </p>
+  </div>
+  <p>
+    <label for="AddressArea">
+      <div align="left">Address: <br />
+        <br />
+        <textarea name="AddressArea" id="AddressArea" cols="45" rows="5"></textarea>
+        <br />
+        <br />
+    </label>
+    <label for="City">City:</label>
+    <input type="text" name="City" id="City" />
+    <label for="AddressArea">State:
+  <select name="State" id="State">
+    <option value="NY" selected="selected">NY</option>
+    <option value="NJ">NJ</option>
+  </select>
+      <br />
+      <br />
+      Zip Code:
+  <input type="text" name="ZipCode" id="ZipCode" />
+      <br />
+      <br />
+      Telephone
+      <input type="text" name="TelephoneField" id="TelephoneField" />
+      <br />
+      <br />
+      Preferences:      <br />
+    </label>
+    <label>
+      <select name="select5" size="3" multiple="multiple" id="select5">
+        <option value="Car">Car</option>
+        <option value="Clothing">Clothing</option>
+        <option value="Life Insurance">Life Insurance</option>
+      </select>
+  </label>
+    <label for="AddressArea"> <br />
+      <br />
+  <br />
+    </label>
+    <div align="center">
+    <pre><input type="submit" name="OkButton" id="OkButton"  onClick="return Button1_onclick()" value="Submit" /><input type="reset" name="ResetButton" id="button" value="Reset" />
+    </pre>
+  </div>
+  <label for="FirstNameField"> </label>
+</form>
+<p align="center">&nbsp;</p>
+</body>
+</html>

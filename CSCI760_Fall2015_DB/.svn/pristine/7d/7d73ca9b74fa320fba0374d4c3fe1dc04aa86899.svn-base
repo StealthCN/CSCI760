@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<body>
+<p>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<form name="form1" method="POST" action="">
+<input name="Submit" name="submit" value="AAA" />
+<%
+	if((request.getParameter("action")!=null)&&	(request.getParameter("action").trim().equals("logout")))
+	{
+		session.putValue("login","");
+		response.sendRedirect("/");
+		return;
+	}
+		String username = request.getParameter("username");
+		String userpasswd = request.getParameter("userpasswd");
+     	String mysJDBCDriver = "com.mysql.jdbc.Driver"; 
+     	String mysURL = "jdbc:mysql://127.0.0.1:3306/lifepieces"; 
+     	String mysUserID = "root"; 
+    	String mysPassword = "626262";
+    	
+	session.putValue("login","");
+	if ((username!=null) &&(userpasswd!=null))
+	{
+		if (username.trim().equals("") || userpasswd.trim().equals(""))
+		{
+			response.sendRedirect("Index.html");
+		}
+		else
+		{
+			// code start here
+			java.sql.Connection conn=null;
+			try {
+		            	Class.forName(mysJDBCDriver).newInstance();
+            			java.util.Properties sysprops=System.getProperties();
+            			sysprops.put("user",mysUserID);
+            			sysprops.put("password",mysPassword); 
+        
+				//connect to the database
+            			conn=java.sql.DriverManager.getConnection(mysURL,sysprops);
+            			System.out.println("Connected successfully to database using JConnect");
+            
+            			conn.setAutoCommit(false);
+            			java.sql.Statement stmt1=conn.createStatement();
+            			java.sql.Statement stmt2=conn.createStatement();
+				java.sql.ResultSet rs = stmt1.executeQuery(" select * from person where First_Name='"+username+"' and Password='"+userpasswd+"'");
+
+				if (rs.next())
+				{
+					int SSN = rs.getInt(1);
+					// login success
+					java.sql.ResultSet rs1 = stmt2.executeQuery(" select * from user where SSN='"+SSN+"'");
+					int userID = 0;
+					if (rs1.next())
+					{
+						userID = rs1.getInt(2);
+						String id = Integer.toString(userID);
+						//System.out.println(rs1.getInt(2));
+						%>
+						<input type="hidden" name="userID" value="<%=id%>">
+						<%
+						request.setAttribute("login",rs1.getInt(2));
+						session.setAttribute("login",rs1.getInt(2));
+	      				session.setAttribute("name", username);
+					}
+					stmt1.close();
+					stmt2.close();
+					response.sendRedirect("Main.jsp?param1="+userID);
+				}
+				else
+				{
+					response.sendRedirect("WrongPass.jsp");
+				}
+			} catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			finally{
+				try{conn.close();}catch(Exception ee){};
+			}
+		}
+	}
+	else
+	{
+		response.sendRedirect("WrongPass.jsp");
+	}
+%>
+</form>
+</body>
+</html>
